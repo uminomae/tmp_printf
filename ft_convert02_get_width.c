@@ -1,6 +1,6 @@
 #include "ft_printf.h"
 
-size_t	get_field_w(const char *fmt, long long *b_width, int *b_flag)
+size_t	get_field_w(const char *fmt, long long *two_width, int *b_flag)
 {
 	size_t	i;
     size_t  field_w;
@@ -13,11 +13,13 @@ size_t	get_field_w(const char *fmt, long long *b_width, int *b_flag)
         field_w = field_w * 10 + (fmt[i] - '0');
 		i++;
 	}
-        *b_width = field_w;
+    if (field_w > INT_MAX)
+        return (-1);
+    *two_width = field_w;
 	return (i);
 }
 
-size_t	get_prec_w(const char *fmt, long long *b_width, int *b_flag)
+size_t	get_prec_w(const char *fmt, long long *two_width, int *b_flag)
 {
 	size_t	i;
     size_t prec_w;
@@ -36,6 +38,8 @@ size_t	get_prec_w(const char *fmt, long long *b_width, int *b_flag)
 			i++;
 		}
 	}
-    *b_width = (prec_w<<32)|*b_width;
+    if (prec_w > INT_MAX)
+        return (-1);
+    *two_width = (prec_w<<32)|*two_width;
 	return (i);
 }

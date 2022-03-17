@@ -47,7 +47,6 @@ int		ull_count_dig(unsigned long long n, int base);
 char	*ull_to_char(unsigned long long n, int sign, size_t dig, int base);
 int     put_with_pad_ap(char *conv_s, int b_flag, size_t field_w, size_t prec_w);
 size_t	pad_precision(char *alc_cp, size_t len_s, size_t prec_w, int b_flag);
-size_t	pad_precision_digit(char *alc_cp, size_t len, size_t prec_w, int b_flag);
 size_t  add_fmt_option(char *str, size_t len, int b_flag);
 void	pad_field(char *str, size_t len, size_t shift, int b_flag);
 int     write_put_str(char *put_str, int b_flag, size_t field_w, size_t len_put_s);

@@ -1,4 +1,5 @@
 #include "ft_printf.h"
+static size_t	pad_precision_digit(char *alc_cp, size_t len_s, size_t prec_w, int b_flag);
 
 size_t	pad_precision(char *alc_cp, size_t len_s, size_t prec_w, int b_flag)
 {
@@ -12,7 +13,7 @@ size_t	pad_precision(char *alc_cp, size_t len_s, size_t prec_w, int b_flag)
 	return (len_s);
 }
 
-size_t	pad_precision_digit(char *alc_cp, size_t len_s, size_t prec_w, int b_flag)
+static size_t	pad_precision_digit(char *alc_cp, size_t len_s, size_t prec_w, int b_flag)
 {
 	size_t	pad_w;
 

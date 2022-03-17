@@ -11,8 +11,8 @@ SRCS		:= 	ft_printf.c \
 				ft_convert05_to_ascii.c \
 				ft_pad2put_main.c \
 				ft_pad2put01_precision.c \
-				ft_pad2put02_add_option.c \
-				ft_pad2put03_pad_field.c \
+				ft_pad2put02_option.c \
+				ft_pad2put03_field.c \
 				ft_pad2put04_write.c \
 
 OBJS	= $(SRCS:%.c=%.o)
