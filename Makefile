@@ -3,19 +3,25 @@ CC			:= cc
 RM			:= rm -f
 CFLAGS		:= -Wall -Wextra -Werror
 SRCS		:= 	ft_printf.c \
-				ft_convert_main.c \
+				ft_convt2put00_main.c \
 				ft_convert01_get_flag.c \
-				ft_convert02_get_width.c \
+				ft_convert02_get_field_and_prec.c \
 				ft_convert03_spec_char.c \
 				ft_convert04_spec_digit.c \
 				ft_convert05_to_ascii.c \
-				ft_pad2put_main.c \
-				ft_pad2put01_precision.c \
-				ft_pad2put02_option.c \
-				ft_pad2put03_field.c \
-				ft_pad2put04_write.c \
+				ft_pad2put01_alloc.c \
+				ft_pad2put02_precision.c \
+				ft_pad2put03_option.c \
+				ft_pad2put04_field.c \
+				ft_pad2put05_write.c
 
 OBJS	= $(SRCS:%.c=%.o)
+
+B_OBJS	= $(SRCS_B:%.c=%.o)
+
+ifdef WITH_BONUS
+	OBJS += $(B_OBJS)
+endif
 
 all:		$(NAME)
 
@@ -34,5 +40,8 @@ fclean:	clean
 
 re: fclean all
 
+bonus: 
+	make WITH_BONUS=1
+	
 .PHONY: all clean fclean re bonus
 

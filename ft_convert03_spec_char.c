@@ -2,27 +2,25 @@
 
 char	*convert_c(unsigned char c)
 {
-	char	*conv_s;
+	char	*conv_str;
 
-	conv_s = ft_strdup(" ");
-	if (conv_s == NULL)
-		return (NULL);
-	conv_s[0] = c;
-	return (conv_s);
+	conv_str = (char *)malloc(sizeof(char) * 2);
+    if (conv_str == NULL)
+        return (NULL);
+	conv_str[0] = c;
+    conv_str[1] = '\0';
+	return (conv_str);
 }
 
 char	*convert_s(char *s)
 {
-	char	*conv_s;
+	char	*conv_str;
 
     if (ft_strlen(s) > INT_MAX)
         return (NULL);
-	conv_s = NULL;
+	conv_str = NULL;
 	if (s == NULL)
-		conv_s = ft_strdup("(null)");
+        return (ft_strdup("(null)"));
 	else
-		conv_s = ft_strdup(s);
-	if (conv_s == NULL)
-		return (NULL);
-	return (conv_s);
+        return (ft_strdup(s));
 }

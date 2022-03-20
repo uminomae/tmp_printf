@@ -1,64 +1,74 @@
 #include "ft_printf.h"
 
-static int      write_or_convert(const char *fmt, va_list *ap, size_t *i);
-static ssize_t	strlen_to_percent_or_end(const char *fmt);
+static int  sum_output_char(const char *fmt, va_list *ap);
+static int  convert_and_print(const char *fmt, va_list *ap, size_t *i);
+static ssize_t	get_len_until_percent(const char *fmt);
 
 int	ft_printf(const char *fmt, ...)
 {
 	va_list	ap;
-	int		total_len;
-    int     sub_total_len;
-	size_t	i;
+	int		len_total;
 
 	if (fmt == NULL)
 		return (-1);
 	va_start(ap, fmt);
-	total_len = 0;
+	len_total = sum_output_char(fmt, &ap);
+	va_end(ap);
+	return (len_total);
+}
+
+static int  sum_output_char(const char *fmt, va_list *ap)
+{
+    int		len_total;
+    int     len_sub_total;
+    size_t	i;
+    
+    len_total = 0;
+    len_sub_total = 0;
 	i = 0;
 	while (fmt[i] != '\0')
 	{
-		sub_total_len = write_or_convert(fmt, &ap, &i);
-		if (sub_total_len == -1)
+		len_sub_total = convert_and_print(fmt, ap, &i);
+		if (len_sub_total < 0)
 			return (-1);
-        total_len += sub_total_len;
+        len_total += len_sub_total;
 	}
-	va_end(ap);
-	return (total_len);
+    return (len_total);
 }
 
-static int	write_or_convert(const char *fmt, va_list *ap, size_t *i)
+static int	convert_and_print(const char *fmt, va_list *ap, size_t *i)
 {
-	int		sub_total_len;
-	int 	write_len;
+	int		len_sub_total;
+	int 	len_output;
 
-	sub_total_len = 0;
-	write_len = 0;
+	len_sub_total = 0;
+	len_output = 0;
 	if (fmt[*i] == '%')
 	{
-        write_len = cnvrt_ap_to_output(&fmt[*i], ap, i);
-		if (write_len == -1)
+        len_output = convert_main(&fmt[*i], ap, i);
+		if (len_output == -1)
 			return (-1);
 	}
 	else
 	{
-		write_len = strlen_to_percent_or_end(&fmt[*i]);
-    	if (write_len == -1)
+		len_output = get_len_until_percent(&fmt[*i]);
+    	if (len_output == -1)
 	    	return (-1);
-        write(1, &fmt[*i], write_len);
-		*i += write_len;
+        write(1, &fmt[*i], len_output);
+		*i += len_output;
 	}
-	sub_total_len += write_len;
-	return ((int)sub_total_len);
+	len_sub_total += len_output;
+	return (len_sub_total);
 }
 
-static ssize_t	strlen_to_percent_or_end(const char *fmt)
+static ssize_t	get_len_until_percent(const char *fmt)
 {
 	size_t	i;
 
 	i = 0;
 	while (fmt[i] != '%' && fmt[i] != '\0')
 		i++;
-    if (INT_MAX < i)
+    if (i > INT_MAX)
         return (-1);
 	return (i);
 }

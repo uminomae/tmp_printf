@@ -1,57 +1,55 @@
 #include "ft_printf.h"
 
-char	*to_upper_str(char *to_a)
+char	*convert_uint(uint32_t n, int base)
 {
-	size_t	i;
+	char	*to_a;
 	size_t	len;
 
-	len = ft_strlen(to_a);
-	i = 0;
-	while (i < len)
-	{
-		to_a[i] = ft_toupper(to_a[i]);
-		i++;
-	}
+	len = long_count_length(n, base);
+	to_a = long_to_char(n, 1, len, base);
 	return (to_a);
 }
 
-char	*convert_uint(unsigned int n, int base)
+char	*convert_di(int n, int *flag)
 {
 	char	*to_a;
-	size_t	dig;
-
-	dig = long_count_dig(n, base);
-	to_a = long_to_char(n, 1, dig, base);
-	return (to_a);
-}
-
-char	*convert_di(int n, int *bit_flag)
-{
-	char	*to_a;
-	size_t	dig;
+	size_t	len;
 	int		sign;
 
 	sign = 1;
 	if (n < 0)
 	{
 		sign = -1;
-		*bit_flag |= FLAG_NEGA;
+		*flag |= FLAG_NEGA;
 	}
-	dig = long_count_dig(n, 10);
-	to_a = long_to_char(n, sign, dig, 10);
+	len = long_count_length(n, 10);
+	to_a = long_to_char(n, sign, len, 10);
 	return (to_a);
 }
 
 char	*convert_p(void *s)
 {
-	unsigned long long	n;
-	char				*to_a;
-	size_t				dig;
+	uint64_t    n;
+	char		*to_a;
+	size_t	    len;
+    char        *ret;
 
-	n = (unsigned long long)s;
-	dig = ull_count_dig(n, 16);
-	to_a = ull_to_char(n, 1, dig, 16);
-	ft_memmove(&to_a[2], to_a, ft_strlen(to_a));
-	ft_memmove(to_a, "0x", 2);
+	n = (uint64_t)s;
+	len = uint64t_count_length(n, 16);
+	to_a = uint64t_to_char(n, len, 16);
+    ret = ft_strjoin("0x", to_a);
+    if (ret == NULL)
+        return (NULL);
+    free(to_a);
+	return (ret);
+}
+
+char	*convert_x(uint32_t n, int base)
+{
+	char	*to_a;
+	size_t	len;
+
+	len = long_count_length(n, base);
+	to_a = long_to_char(n, 1, len, base);
 	return (to_a);
 }
