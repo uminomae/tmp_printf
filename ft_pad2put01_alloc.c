@@ -6,13 +6,13 @@ char	*get_alloc_size(char *conv_str, int flag, size_t field, size_t prec)
 	char	*alloc_cp;
 
 	len_s = ft_strlen(conv_str);
-	if (len_s < prec && !(flag & FLAG_S) && (flag & FLAG_IS_PREC))
+    if (len_s < prec && !(flag & FLAG_S))
 		len_s = prec;
 	else if (len_s > prec && flag & FLAG_S && (flag & FLAG_IS_PREC))
 		len_s = prec;
 	if (len_s < field && (flag & FLAG_IS_FIELD))
 		len_s = field;
-	if ((flag & FLAG_NEGA))
+	if (flag & FLAG_NEGA)
 		len_s += 1;
 	if (flag & FLAG_NUMBER_SIGN)
 	{
@@ -26,4 +26,13 @@ char	*get_alloc_size(char *conv_str, int flag, size_t field, size_t prec)
 	}
 	alloc_cp = (char *)ft_calloc(1, len_s + 1);
 	return (alloc_cp);
+}
+
+int	is_diux_flag(int flag)
+{
+	if (flag & FLAG_D || flag & FLAG_I)
+		return (1);
+	if (flag & FLAG_U || flag & FLAG_X || flag & FLAG_LX)
+		return (1);
+	return (0);
 }

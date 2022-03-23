@@ -1,5 +1,7 @@
 #include "ft_printf.h"
 
+static size_t write_field_width(char *put_str, int flag, size_t field);
+
 char	*to_upper_str(char *to_a)
 {
 	size_t	i;
@@ -15,29 +17,33 @@ char	*to_upper_str(char *to_a)
 	return (to_a);
 }
 
-int  write_put_str(char *put_str, int flag, size_t field, size_t len_put_s)
+int  write_put_str(char *put_str, int flag, size_t field)
 {
-    if (len_put_s > (size_t)INT_MAX)
+    size_t len_str;
+
+    len_str = ft_strlen(put_str);
+    if (len_str > (size_t)INT_MAX)
     {
         free(put_str);
         return (-1);
     }
-    if (flag & FLAG_C0)
-    {
-        if (flag & FLAG_IS_FIELD)
-        {
-            write(1, put_str, field);
-            len_put_s = field;
-        }
-        else
-        {
-            write(1, "\0", 1);
-            free (put_str);
-            return (1);
-        }
-    }
+    else if (flag & FLAG_C0)
+        len_str = write_field_width(put_str, flag, field);
     else
-        write(1, put_str, len_put_s);
+        write(1, put_str, len_str);
     free (put_str);
-    return (len_put_s);
+    return (len_str);
+}
+
+static size_t write_field_width(char *put_str, int flag, size_t field)
+{
+    if (flag & FLAG_IS_FIELD)
+        write(1, put_str, field);
+    else
+    {
+        write(1, "\0", 1);
+        free (put_str);
+        return (1);
+    }
+    return (field);
 }

@@ -19,22 +19,21 @@ char    *long_to_char(long n, int sign, size_t len, int base)
 {
 	char	*to_a;
 	size_t	i;
-	size_t	j;
+    size_t  indx_from_end;
 
 	to_a = (char *)ft_calloc(1, sizeof(char) * (len + 1));
 	if (to_a == NULL)
 		return (NULL);
 	i = 0;
-	j = len - 1;
 	while (i < len)
 	{
-        to_a[j] = "0123456789abcdef"[n % base * sign];
-		if (n == 0 && sign == -1)
-			to_a[0] = '-';
+        indx_from_end = len - 1 - i;
+        to_a[indx_from_end] = "0123456789abcdef"[n % base * sign];
 		n /= base;
 		i++;
-		j--;
 	}
+    if (n == 0 && sign == -1)
+        to_a[0] = '-';
 	return (to_a);
 }
 
@@ -57,19 +56,18 @@ char    *uint64t_to_char(uint64_t n, size_t len, int base)
 {
 	char	*to_a;
 	size_t	i;
-	size_t	j;
+    size_t  indx_from_end;
 
 	to_a = (char *)ft_calloc(1, sizeof(char) * (len + 1));
 	if (to_a == NULL)
 		return (NULL);
 	i = 0;
-	j = len - 1;
 	while (i < len)
 	{
-        to_a[j] = "0123456789abcdef"[n % base];
+        indx_from_end = len - 1 - i;
+        to_a[indx_from_end] = "0123456789abcdef"[n % base];
 		n /= base;
 		i++;
-		j--;
 	}
 	return (to_a);
 }

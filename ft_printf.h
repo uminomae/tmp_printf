@@ -7,15 +7,14 @@
 
 # define SET_OPTION     "#-+ 0"
 # define SET_SPEC       "cspdiuxX"
+# define SHIFT_OPTION   0
+# define SHIFT_SPEC     8 
 
 typedef struct s_fmt
 {
     int field;
     int precision;
 }t_fmt;
-
-# define SHIFT_OPTION   0
-# define SHIFT_SPEC     8 
 
 # define FLAG_NUMBER_SIGN      0x00001  //(1<<0)
 # define FLAG_HYPHEN    0x00002  //(1<<1)
@@ -35,8 +34,10 @@ typedef struct s_fmt
 # define FLAG_U         0x02000  //(1<<13)
 # define FLAG_X         0x04000  //(1<<14)
 # define FLAG_LX        0x08000  //(1<<15)
+# define FLAG_PERC      0x10000  //(1<<16)
 
-# define FLAG_C0        0x10000  //(1<<16)
+# define FLAG_C0        0x20000  //(1<<17)
+# define FLAG_D0        0x40000  //(1<<18)
 
 int		ft_printf(const char *fmt, ...);
 size_t	get_option_flag(const char *fmt, int *flag);
@@ -48,11 +49,11 @@ size_t	get_field_width(const char *fmt, t_fmt *list, int *flag);
 int     convert_main(const char *fmt, va_list *ap, size_t *i);
 char	*convert_c(unsigned char c);
 char	*convert_s(char *s);
-char	*convert_uint(uint32_t n, int base);
-char	*convert_x(uint32_t n, int base);
+char	*convert_uint(uint32_t n, int *flag, int base);
+char	*convert_x(uint32_t n, int *flag, int base);
 char	*to_upper_str(char *to_a);
 char	*convert_di(int n, int *flag);
-char	*convert_p(void *s);
+char	*convert_p(void *s, int *flag);
 int		long_count_length(long n, int base);
 char	*long_to_char(long n, int sign, size_t dig, int base);
 int		uint64t_count_length(uint64_t n, int base);
@@ -61,6 +62,6 @@ int     output_with_padded(char *conv_str, int flag, size_t field, size_t prec);
 size_t	pad_precision(char *alc_cp, size_t len_s, size_t prec, int flag);
 size_t  add_fmt_option(char *str, size_t len, int flag);
 void	pad_field(char *str, size_t len, size_t shift, int flag);
-int     write_put_str(char *put_str, int flag, size_t field, size_t len_put_s);
+int     write_put_str(char *put_str, int flag, size_t field);
 
 #endif

@@ -2,7 +2,7 @@
 
 static int  sum_output_char(const char *fmt, va_list *ap);
 static int  convert_and_print(const char *fmt, va_list *ap, size_t *i);
-static ssize_t	get_len_until_percent(const char *fmt);
+static int	get_len_until_percent(const char *fmt);
 
 int	ft_printf(const char *fmt, ...)
 {
@@ -32,6 +32,8 @@ static int  sum_output_char(const char *fmt, va_list *ap)
 		if (len_sub_total < 0)
 			return (-1);
         len_total += len_sub_total;
+        if (len_total > INT_MAX)
+            return (-1);
 	}
     return (len_total);
 }
@@ -61,7 +63,7 @@ static int	convert_and_print(const char *fmt, va_list *ap, size_t *i)
 	return (len_sub_total);
 }
 
-static ssize_t	get_len_until_percent(const char *fmt)
+static int	get_len_until_percent(const char *fmt)
 {
 	size_t	i;
 
@@ -70,5 +72,5 @@ static ssize_t	get_len_until_percent(const char *fmt)
 		i++;
     if (i > INT_MAX)
         return (-1);
-	return (i);
+	return ((int)i);
 }

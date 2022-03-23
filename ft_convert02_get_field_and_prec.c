@@ -15,7 +15,7 @@ size_t	get_field_width(const char *fmt, t_fmt *list, int *flag)
 {
     size_t  field_width;
     size_t  next;
-	size_t	i;
+	size_t  i;
 
     field_width = 0;
     next = 0;
@@ -35,7 +35,7 @@ size_t	get_precision_len(const char *fmt, t_fmt *list, int *flag)
 {
     size_t  precision;
     size_t  next;
-	size_t	i;
+	size_t  i;
 
     precision = 0;
     next = 0;
