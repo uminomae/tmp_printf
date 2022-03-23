@@ -1,88 +1,75 @@
 #include "ft_printf.h"
 
-int	long_count_dig(long n, int base)
+int long_count_length(long n, int base)
 {
-	size_t	dig;
+	size_t	len;
 
-	dig = 0;
+	len = 0;
 	if (n <= 0)
-		dig = 1;
+		len = 1;
 	while (n != 0)
 	{
 		n /= base;
-		dig++;
+		len++;
 	}
-	return (dig);
+	return (len);
 }
 
-char	*long_to_char(long n, int sign, size_t dig, int base)
+char    *long_to_char(long n, int sign, size_t len, int base)
 {
-	char	*toa;
+	char	*to_a;
 	size_t	i;
 	size_t	j;
 
-	toa = (char *)ft_calloc(1, sizeof(char) * (dig + 1));
-	if (toa == NULL)
+	to_a = (char *)ft_calloc(1, sizeof(char) * (len + 1));
+	if (to_a == NULL)
 		return (NULL);
 	i = 0;
-	j = dig - 1;
-	while (i < dig)
+	j = len - 1;
+	while (i < len)
 	{
-		if (n == 0 && sign < 0)
-			toa[0] = '-';
-		else
-		{
-			toa[j] = n % base * sign + '0';
-			if (toa[j] > 57)
-				toa[j] += 39;
-		}
+        to_a[j] = "0123456789abcdef"[n % base * sign];
+		if (n == 0 && sign == -1)
+			to_a[0] = '-';
 		n /= base;
 		i++;
 		j--;
 	}
-	return (toa);
+	return (to_a);
 }
 
-int	ull_count_dig(unsigned long long n, int base)
+int uint64t_count_length(uint64_t n, int base)
 {
-	size_t	dig;
+	size_t	len;
 
-	dig = 0;
-	if (n <= 0)
-		dig = 1;
+	len = 0;
+	if (n == 0)
+		len = 1;
 	while (n != 0)
 	{
 		n /= base;
-		dig++;
+		len++;
 	}
-	return (dig);
+	return (len);
 }
 
-char	*ull_to_char(unsigned long long n, int sign, \
-		size_t dig, int base)
+char    *uint64t_to_char(uint64_t n, size_t len, int base)
 {
-	char	*toa;
+	char	*to_a;
 	size_t	i;
 	size_t	j;
 
-	toa = (char *)ft_calloc(1, sizeof(char) * (dig + 1));
-	if (toa == NULL)
+	to_a = (char *)ft_calloc(1, sizeof(char) * (len + 1));
+	if (to_a == NULL)
 		return (NULL);
 	i = 0;
-	j = dig - 1;
-	while (i < dig)
+	j = len - 1;
+	while (i < len)
 	{
-		if (n == 0 && sign < 0)
-			toa[0] = '-';
-		else
-		{
-			toa[j] = n % base * sign + '0';
-			if (toa[j] > 57)
-				toa[j] += 39;
-		}
+        to_a[j] = "0123456789abcdef"[n % base];
 		n /= base;
 		i++;
 		j--;
 	}
-	return (toa);
+	return (to_a);
 }
